@@ -1,0 +1,48 @@
+<div class="row justify-content-center md-3">
+    <div class="col-md-4 text-center">
+        <h1>TODO CATEGORY</h1>
+        <p class="text-info">
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+        </p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <form #categoryToAdd="ngForm" (ngSubmit)='categoryToAdd.form.valid && onSubmit(categoryToAdd)' class="form-inline">
+            <div class="col-md-10 form-group">
+                <input type="text" placeholder="Add New Categories here" name="categoryName"
+                    class="form-control-plaintext  drop-shadow" [(ngModel)]="categoryName" required #category='ngModel'
+                    [ngClass]="{'border-danger': categoryToAdd.submitted && category.invalid }">
+            </div>
+            <button type="submit" class="btn btn-primary position-relative col-md-2 btn-todo btn-block drop-shadow"> {{dataStatus}} </button>
+            <div class="text-danger ml-3"
+                *ngIf="categoryToAdd.submitted && category.invalid && category.errors?.['required']">
+                Category is Required ..
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="row categories-list">
+    <div class="col-md-3" *ngFor="let category of this.categories" >
+        <div class="card drop-shadow" [style.border-left-color]="category.colorCode">
+            <div class="card-body">
+                <div class="clearfix">
+                    <div class="float-left">
+                        <div class="badge badge-primary"> CATEGORY </div>
+                    </div>
+                    <div class="float-right cat-tools">
+                        <small><i class="fa fa-pencil-alt text-success" (click)="onEdit(category.categoryId,category)"></i></small>
+                        <small><i class="fas fa-trash text-danger" (click)="onDelete(category.categoryId)"></i></small>
+                    </div>
+                </div>
+                <div class="todo-content" [routerLink]="['/todo', category.categoryId]" (click)="onClickTodo(category.categoryName)">
+                    <h3 [style.color]="category.colorCode">{{category.categoryName}}</h3>
+                    <small class="text-secondary">{{categoryDescription}}</small>
+                </div>
+                <span class="badge badge-danger">{{category.todoCount}} - Todos</span>
+            </div>
+        </div>
+    </div>
+</div>
